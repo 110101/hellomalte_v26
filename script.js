@@ -4,6 +4,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // Initialisiert immer das Thema (Dark Mode) und die Scroll-Anzeige
     initializeTheme();
 
+    // Schützt die E-Mail-Adresse vor einfachen Scrapern
+    protectEmail();
+
     // Führt Code nur aus, wenn die entsprechenden Container auf der Seite existieren
     if (document.getElementById('article-list-container')) {
         loadArticleList();
@@ -23,29 +26,48 @@ function initializeTheme() {
     const darkModeSwitch = document.querySelector('#darkModeToggleContainer');
     const body = document.body;
     const progressBar = document.querySelector('.scroll-progress-bar');
+    const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
     const setTheme = (theme) => {
-        if (theme === 'dark') {
-            body.classList.add('dark-mode');
+        // Stellt sicher, dass immer nur eine Theme-Klasse aktiv ist
+        body.classList.remove('dark-mode', 'light-mode');
+        body.classList.add(`${theme}-mode`);
+    };
+
+    if (darkModeSwitch) {
+        darkModeSwitch.addEventListener('click', () => {
+            // Bei einem Klick wird die explizite Auswahl des Nutzers gespeichert
+            const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
+            localStorage.setItem('theme', newTheme);
+            setTheme(newTheme);
+        });
+    }
+
+    // Funktion zur initialen Festlegung des Themas
+    const setInitialTheme = () => {
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme) {
+            // 1. Priorität: Eine vom Nutzer gespeicherte Auswahl
+            setTheme(savedTheme);
         } else {
-            body.classList.remove('dark-mode');
+            // 2. Priorität: Die System-Einstellung des Nutzers
+            setTheme(prefersDarkScheme.matches ? 'dark' : 'light');
         }
     };
 
-    if(darkModeSwitch) {
-        darkModeSwitch.addEventListener('click', () => {
-            const isDarkMode = body.classList.contains('dark-mode');
-            const newTheme = isDarkMode ? 'light' : 'dark';
-            setTheme(newTheme);
-            localStorage.setItem('theme', newTheme);
-        });
-    }
-    
-    // Gespeichertes Thema beim Laden anwenden
-    const savedTheme = localStorage.getItem('theme') || 'light';
-    setTheme(savedTheme);
+    // Initiales Thema beim Laden der Seite setzen
+    setInitialTheme();
 
-    // Scroll-Anzeige initialisieren
+    // Auf Änderungen der System-Einstellung lauschen
+    prefersDarkScheme.addEventListener('change', (e) => {
+        // Nur anpassen, wenn der Nutzer keine explizite Auswahl getroffen hat
+        if (!localStorage.getItem('theme')) {
+            setTheme(e.matches ? 'dark' : 'light');
+        }
+    });
+
+
+    // Scroll-Anzeige (unverändert)
     const updateScrollProgress = () => {
         if (!progressBar) return;
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -61,16 +83,28 @@ function initializeTheme() {
 }
 
 
+// ============== E-MAIL-SCHUTZ ==============
+
+function protectEmail() {
+    const contactLink = document.getElementById('contact-link');
+    if (contactLink) {
+        const user = 'hallo';
+        const domain = 'malte.com';
+        contactLink.href = `mailto:${user}@${domain}`;
+        contactLink.textContent = `${user}@${domain}`;
+    }
+}
+
+
 // ============== ARTIKEL-LOGIK ==============
 
-// Funktion zum Laden der Artikelliste auf der Startseite
 async function loadArticleList() {
     const container = document.getElementById('article-list-container');
     try {
         const response = await fetch('posts.json');
         const data = await response.json();
         
-        container.innerHTML = ''; // Leert den "Lade..."-Text
+        container.innerHTML = ''; 
 
         const sortedPosts = data.posts.sort().reverse();
         
@@ -90,7 +124,6 @@ async function loadArticleList() {
     }
 }
 
-// Funktion zum Laden des einzelnen Artikelinhalts
 async function loadArticleContent() {
     const container = document.getElementById('article-content-container');
     const params = new URLSearchParams(window.location.search);
@@ -105,6 +138,11 @@ async function loadArticleContent() {
         const response = await fetch(`posts/${postFilename}`);
         const markdown = await response.text();
         
+        // Stellt sicher, dass die "marked" Bibliothek geladen ist
+        if (typeof marked === 'undefined') {
+            console.error('marked.js is not loaded');
+            return;
+        }
         const contentHtml = marked.parse(markdown);
         container.innerHTML = contentHtml;
 
@@ -123,7 +161,6 @@ async function loadArticleContent() {
     }
 }
 
-// Hilfsfunktion, um Dateinamen in schöne Titel umzuwandeln
 function formatFilenameToTitle(filename) {
     let title = filename.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/\.md$/, '');
     title = title.replace(/-/g, ' ');
@@ -140,7 +177,7 @@ async function loadLinkCollection() {
     try {
         const response = await fetch('links.md');
         const markdown = await response.text();
-        container.innerHTML = ''; // Leert den "Lade..."-Text
+        container.innerHTML = '';
 
         const entries = markdown.trim().split(/\n---\n/);
         
@@ -159,6 +196,7 @@ async function loadLinkCollection() {
                 const li = document.createElement('li');
                 li.className = 'link-item';
                 li.innerHTML = `
+                    ${iconSvg}
                     <div class="link-item-text">
                         <a href="${linkData.URL}" target="_blank" rel="noopener noreferrer">
                             <h3>${linkData.TITLE}</h3>

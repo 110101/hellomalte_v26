@@ -4,22 +4,22 @@
     --text-color: #1a1a1a;
     --secondary-text-color: #444;
     --border-color: #e0e0e0;
-    --link-hover-color: #555;
+    --link-hover-color: #3c6187;
     --switch-bg: #ccc;
     --switch-circle-bg: #fff;
-    --scroll-color: #B87333;
+    --scroll-color: #3c6187;
 }
 
 body.dark-mode {
     --bg-color: #1a1a1a;
     --text-color: #F9F9F9;
     --secondary-text-color: #bbb;
-    --text-decoration-color: #B87333;
+    --text-decoration-color: #de8532;
     --border-color: #333;
-    --link-hover-color: #B87333;
-    --switch-bg: #B87333; /* iOS green for 'on' state */
+    --link-hover-color: #de8532;
+    --switch-bg: #de8532; /* iOS green for 'on' state */
     --switch-circle-bg: #fff;
-    --scroll-color: #B87333;
+    --scroll-color: #de8532;
 }
 
 
@@ -74,6 +74,10 @@ body {
 .nav-brand {
     font-weight: 700;
     font-size: 1.2rem;
+}
+
+.nav-brand a {
+    text-decoration: none;
 }
 
 /* Dark Mode Schalter */
@@ -318,11 +322,11 @@ a:hover {
 }
 
 .resource-icon {
-    flex-shrink: 0; /* Verhindert, dass das Icon schrumpft */
+    flex-shrink: 0;
     width: 40px;
     height: 40px;
-    margin-top: 5px; /* Feinanpassung der vertikalen Position */
-    fill: var(--text-color); /* STEUERT DIE ICON-FARBE */
+    margin-top: 5px;
+    color: var(--text-color); 
     transition: transform 0.2s ease;
 }
 
@@ -376,7 +380,7 @@ a:hover {
 .site-footer {
     text-align: center; /* Zentriert den Text */
     padding: 2rem 1rem; /* Innenabstand (oben/unten, links/rechts) */
-    margin-top: 4rem; /* Großer Abstand zum Hauptinhalt, um ihn abzusetzen */
+    margin-top: 0rem; /* Großer Abstand zum Hauptinhalt, um ihn abzusetzen */
     border-top: 1px solid var(--border-color); /* Dezente Trennlinie */
     color: var(--secondary-text-color); /* Unauffällige Textfarbe aus den Variablen */
     font-size: 0.9rem; /* Etwas kleinere Schrift */
@@ -406,7 +410,7 @@ a:hover {
 
 /* Stile für den Inhalt der Legal-Seite */
 .legal-content h2, .legal-content h3 {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
 }
 
 .legal-content p, .legal-content li {
@@ -415,4 +419,25 @@ a:hover {
 
 .legal-content a {
     text-decoration: underline;
+}
+
+/* =============================================== */
+/* STILE FÜR DAS NEUE FOOTER-ICON                  */
+/* =============================================== */
+
+/* Ein kleiner Container für den Text und das Icon, um die Ausrichtung zu erleichtern */
+.footer-credit {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em; /* Kleiner Abstand zwischen Text und Icon */
+}
+
+/* Das Styling für das SVG-Herz-Icon */
+.footer-heart-icon {
+    width: 1em; /* Passt die Größe an die Schriftgröße an */
+    height: 1em;
+    fill: var(--text-color); /* WICHTIG: Keine Füllfarbe */
+  /*  stroke: var(--text-color); /* WICHTIG: Die Strichfarbe entspricht der Textfarbe */
+  /* stroke-width: 0.5; Die Dicke des Rahmens */
+    vertical-align: middle; /* Verbessert die vertikale Ausrichtung */
 }

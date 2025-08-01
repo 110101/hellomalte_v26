@@ -9,10 +9,12 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body id="top">
     <div class="scroll-progress-bar"></div>
     <nav class="top-nav">
-        <div class="nav-brand">Hello, I'm Malte.</div>
+        <div class="nav-brand">
+            <a href="index.html">Hello, I'm Malte.</a>
+        </div>
         <div class="dark-mode-switch">
             <label for="darkModeToggle" class="toggle-label">Dark Mode</label>
             <div class="toggle-container" id="darkModeToggleContainer">
@@ -70,13 +72,27 @@
             <h2>Gedanken & Artikel</h2>
             <ul class="article-list" id="article-list-container">
                 <li>Artikel werden geladen...</li>
-            </ul>
+                      </ul>
+             <ul class="resource-list">
+                
+                <li>
+                    <a href="https://deine-seite.beehiiv.com" target="_blank" rel="noopener noreferrer" class="resource-link">
+        <svg class="resource-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+        </svg>
+                        <div class="resource-text">
+                            <h3>Newsletter</h3>
+                            <p>Abonniere meinen Newsletter für regelmäßige Einblicke in Design, Technologie und Produktivität direkt in dein Postfach.</p>
+                        </div>
+                    </a>
+                </li>
+                </ul>
         </section>
 
         <section id="contact">
             <h2>Kontakt</h2>
-            <p>Ich bin immer offen für neue Projekte und interessante Gespräche. Schreiben Sie mir gerne eine E-Mail.</p>
-            <p><a href="mailto:hallo@malte.com">hallo@malte.com</a></p>
+            <p>Ich bin immer offen für neue Projekte und interessante Gespräche. Schreiben Sie mir gerne eine <a id="contact-link">E-Mail wird geladen...</a>.</p>
             <ul class="contact-links">
                 <li><a href="#" target="_blank">LinkedIn</a></li>
                 <li><a href="#" target="_blank">Xing</a></li>
@@ -86,10 +102,20 @@
 
     <footer class="site-footer">
         <p>
+            <span class="footer-credit">
+                vibe coded with 
+                <svg class="footer-heart-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M16.5 3c-1.74 0-3.41.81-4.5 2.09C10.91 3.81 9.24 3 7.5 3 4.42 3 2 5.42 2 8.5c0 3.78 3.4 6.86 8.55 11.54L12 21.35l1.45-1.32C18.6 15.36 22 12.28 22 8.5 22 5.42 19.58 3 16.5 3zm-4.4 15.55l-.1.1-.1-.1C7.14 14.24 4 11.39 4 8.5 4 6.5 5.5 5 7.5 5c1.54 0 3.04.99 3.57 2.36h1.87C13.46 5.99 14.96 5 16.5 5c2 0 3.5 1.5 3.5 3.5 0 2.89-3.14 5.74-7.9 10.05z"/>
+                </svg> 
+                in Munich</span>
+            <span class="footer-separator">&bull;</span>
             <span>© 2025 Malte</span>
             <span class="footer-separator">&bull;</span>
             <a href="legal.html">Legal Disclaimer</a>
         </p>
+
+        <a href="#top" class="footer-scroll-top" aria-label="Nach oben scrollen">↑</a>
+
     </footer>
 
 
