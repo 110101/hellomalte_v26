@@ -1,15 +1,18 @@
 // Dieser Event-Listener stellt sicher, dass der Code erst nach dem Laden der Seite ausgeführt wird.
 document.addEventListener('DOMContentLoaded', () => {
     
-    // Theming-Funktionen bleiben global verfügbar
+    // Initialisiert immer das Thema (Dark Mode) und die Scroll-Anzeige
     initializeTheme();
 
-    // Seiten-spezifische Logik ausführen
+    // Führt Code nur aus, wenn die entsprechenden Container auf der Seite existieren
     if (document.getElementById('article-list-container')) {
         loadArticleList();
     }
     if (document.getElementById('article-content-container')) {
         loadArticleContent();
+    }
+    if (document.getElementById('link-collection-container')) {
+        loadLinkCollection();
     }
 });
 
@@ -19,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
 function initializeTheme() {
     const darkModeSwitch = document.querySelector('#darkModeToggleContainer');
     const body = document.body;
+    const progressBar = document.querySelector('.scroll-progress-bar');
 
     const setTheme = (theme) => {
         if (theme === 'dark') {
@@ -28,20 +32,22 @@ function initializeTheme() {
         }
     };
 
-    darkModeSwitch.addEventListener('click', () => {
-        const isDarkMode = body.classList.contains('dark-mode');
-        const newTheme = isDarkMode ? 'light' : 'dark';
-        setTheme(newTheme);
-        localStorage.setItem('theme', newTheme);
-    });
+    if(darkModeSwitch) {
+        darkModeSwitch.addEventListener('click', () => {
+            const isDarkMode = body.classList.contains('dark-mode');
+            const newTheme = isDarkMode ? 'light' : 'dark';
+            setTheme(newTheme);
+            localStorage.setItem('theme', newTheme);
+        });
+    }
     
     // Gespeichertes Thema beim Laden anwenden
     const savedTheme = localStorage.getItem('theme') || 'light';
     setTheme(savedTheme);
 
     // Scroll-Anzeige initialisieren
-    const progressBar = document.querySelector('.scroll-progress-bar');
     const updateScrollProgress = () => {
+        if (!progressBar) return;
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
         if (scrollHeight <= 0) {
             progressBar.style.width = '0%';
@@ -64,10 +70,8 @@ async function loadArticleList() {
         const response = await fetch('posts.json');
         const data = await response.json();
         
-        // Leert den "Lade..."-Text
-        container.innerHTML = ''; 
+        container.innerHTML = ''; // Leert den "Lade..."-Text
 
-        // Sortiert die Posts nach Dateinamen (absteigend, neuste zuerst)
         const sortedPosts = data.posts.sort().reverse();
         
         sortedPosts.forEach(filename => {
@@ -101,16 +105,12 @@ async function loadArticleContent() {
         const response = await fetch(`posts/${postFilename}`);
         const markdown = await response.text();
         
-        // Wandelt Markdown in HTML um
         const contentHtml = marked.parse(markdown);
-
         container.innerHTML = contentHtml;
 
-        // Passt den Seitentitel an
         const articleTitle = container.querySelector('h1')?.textContent || 'Artikel';
         document.title = `${articleTitle} - Malte`;
 
-        // Fügt einen "Zurück"-Link hinzu
         const backLink = document.createElement('a');
         backLink.href = 'index.html';
         backLink.textContent = '← Zurück zur Übersicht';
@@ -125,10 +125,53 @@ async function loadArticleContent() {
 
 // Hilfsfunktion, um Dateinamen in schöne Titel umzuwandeln
 function formatFilenameToTitle(filename) {
-    // Entfernt "YYYY-MM-DD-" und ".md"
     let title = filename.replace(/^\d{4}-\d{2}-\d{2}-/, '').replace(/\.md$/, '');
-    // Ersetzt Bindestriche durch Leerzeichen
     title = title.replace(/-/g, ' ');
-    // Macht den ersten Buchstaben groß
     return title.charAt(0).toUpperCase() + title.slice(1);
+}
+
+
+// ============== LINK-SAMMLUNG LOGIK ==============
+
+async function loadLinkCollection() {
+    const container = document.getElementById('link-collection-container');
+    const iconSvg = `<svg class="link-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 7h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5zm-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-2zm-3-4h8v2H8v-2z"/></svg>`;
+
+    try {
+        const response = await fetch('links.md');
+        const markdown = await response.text();
+        container.innerHTML = ''; // Leert den "Lade..."-Text
+
+        const entries = markdown.trim().split(/\n---\n/);
+        
+        entries.forEach(entry => {
+            const lines = entry.split('\n');
+            const linkData = {};
+            lines.forEach(line => {
+                const [key, ...valueParts] = line.split(': ');
+                const value = valueParts.join(': ');
+                if (key && value) {
+                    linkData[key.trim().toUpperCase()] = value.trim();
+                }
+            });
+
+            if (linkData.URL && linkData.TITLE) {
+                const li = document.createElement('li');
+                li.className = 'link-item';
+                li.innerHTML = `
+                    <div class="link-item-text">
+                        <a href="${linkData.URL}" target="_blank" rel="noopener noreferrer">
+                            <h3>${linkData.TITLE}</h3>
+                        </a>
+                        <p>${linkData.DESC || ''}</p>
+                    </div>
+                `;
+                container.appendChild(li);
+            }
+        });
+
+    } catch (error) {
+        container.innerHTML = '<li>Fehler beim Laden der Links.</li>';
+        console.error('Error fetching links:', error);
+    }
 }

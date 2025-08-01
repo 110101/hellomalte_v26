@@ -295,3 +295,124 @@ a:hover {
         font-size: 1.1rem;
     }
 }
+
+/* =============================================== */
+/* NEU: STILE FÜR DIE RESSOURCEN-LISTE              */
+/* =============================================== */
+
+.resource-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+}
+
+.resource-list li {
+    margin-bottom: 2.5rem;
+}
+
+.resource-link {
+    text-decoration: none;
+    display: flex;
+    align-items: flex-start; /* Sorgt dafür, dass Icon und Text oben bündig sind */
+    gap: 1.5rem; /* Abstand zwischen Icon und Text */
+}
+
+.resource-icon {
+    flex-shrink: 0; /* Verhindert, dass das Icon schrumpft */
+    width: 40px;
+    height: 40px;
+    margin-top: 5px; /* Feinanpassung der vertikalen Position */
+    fill: var(--text-color); /* STEUERT DIE ICON-FARBE */
+    transition: transform 0.2s ease;
+}
+
+.resource-link:hover .resource-icon {
+    transform: scale(1.1);
+}
+
+.resource-text h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin: 0 0 0.25rem 0;
+}
+
+.resource-text p {
+    font-size: 1rem;
+    line-height: 1.5;
+    color: var(--secondary-text-color);
+    margin: 0;
+}
+
+/* NEU: Stile für responsive iframes/Videos */
+.video-container {
+    position: relative;
+    overflow: hidden;
+    width: 100%;
+    padding-top: 56.25%; /* 16:9 Aspect Ratio */
+    margin: 2rem 0;
+}
+
+.video-container iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+}
+
+.back-link {
+    display: inline-block;
+    margin-top: 3rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+/* =============================================== */
+/* FOOTER STYLES                                   */
+/* =============================================== */
+
+.site-footer {
+    text-align: center; /* Zentriert den Text */
+    padding: 2rem 1rem; /* Innenabstand (oben/unten, links/rechts) */
+    margin-top: 4rem; /* Großer Abstand zum Hauptinhalt, um ihn abzusetzen */
+    border-top: 1px solid var(--border-color); /* Dezente Trennlinie */
+    color: var(--secondary-text-color); /* Unauffällige Textfarbe aus den Variablen */
+    font-size: 0.9rem; /* Etwas kleinere Schrift */
+}
+
+/* =============================================== */
+/* ERWEITERTE FOOTER & LEGAL STYLES                */
+/* =============================================== */
+
+/* Macht den Footer flexibler für mehrere Links */
+.site-footer p {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.site-footer a {
+    text-decoration: none;
+    color: var(--secondary-text-color);
+}
+
+.site-footer a:hover {
+    text-decoration: underline;
+    color: var(--text-color);
+}
+
+/* Stile für den Inhalt der Legal-Seite */
+.legal-content h2, .legal-content h3 {
+    margin-top: 2.5rem;
+}
+
+.legal-content p, .legal-content li {
+    line-height: 1.8; /* Verbessert die Lesbarkeit langer Texte */
+}
+
+.legal-content a {
+    text-decoration: underline;
+}
