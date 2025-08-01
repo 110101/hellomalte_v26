@@ -1,0 +1,297 @@
+/* CSS-Variablen für einfaches Theming */
+:root {
+    --bg-color: #F9F9F9;
+    --text-color: #1a1a1a;
+    --secondary-text-color: #444;
+    --border-color: #e0e0e0;
+    --link-hover-color: #555;
+    --switch-bg: #ccc;
+    --switch-circle-bg: #fff;
+    --scroll-color: #B87333;
+}
+
+body.dark-mode {
+    --bg-color: #1a1a1a;
+    --text-color: #F9F9F9;
+    --secondary-text-color: #bbb;
+    --text-decoration-color: #B87333;
+    --border-color: #333;
+    --link-hover-color: #B87333;
+    --switch-bg: #B87333; /* iOS green for 'on' state */
+    --switch-circle-bg: #fff;
+    --scroll-color: #B87333;
+}
+
+
+/* CSS Reset und grundlegende Einstellungen */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Scroll-Anzeige */
+.scroll-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 2px;
+    background: var(--scroll-color);
+    width: 0%;
+    z-index: 200;
+}
+
+/* Menüleiste */
+.top-nav {
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: var(--bg-color);
+    border-bottom: 1px solid var(--border-color);
+    z-index: 100;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.nav-brand {
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+/* Dark Mode Schalter */
+.dark-mode-switch {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.toggle-label {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    transition: color 0.3s ease;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+}
+
+.toggle-container {
+    width: 41px;
+    height: 21px;
+    border-radius: 99px;
+    background-color: var(--switch-bg);
+    padding: 2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    display: flex;
+    align-items: center;
+}
+
+.toggle-circle {
+    width: 17px;
+    height: 17px;
+    border-radius: 50%;
+    background-color: var(--switch-circle-bg);
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    transition: transform 0.3s ease;
+}
+
+body.dark-mode .toggle-circle {
+    transform: translateX(20px);
+}
+
+
+/* Hauptcontainer */
+.container {
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 5vh 2rem 5rem 2rem;
+}
+
+/* Typografie */
+h1, h2 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 600;
+}
+
+h1 {
+    font-size: 3.5rem;
+    line-height: 1.2;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    font-size: 2rem;
+    margin-top: 4rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border-color);
+    transition: border-color 0.3s ease;
+}
+
+p {
+    margin-bottom: 1.5rem;
+    font-size: 1.1rem;
+}
+
+a {
+    color: var(--text-color);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    transition: color 0.2s ease, text-decoration-color 0.2s ease;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+    text-decoration-color: var(--link-hover-color);
+}
+
+/* Sektionen-spezifische Stile */
+.hero .subtitle {
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--secondary-text-color);
+    margin-bottom: 2rem;
+    transition: color 0.3s ease;
+}
+
+.project-item h3 {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1.2rem;
+    margin-bottom: 0.25rem;
+}
+
+.project-item p {
+    font-size: 1rem;
+    color: var(--secondary-text-color);
+    margin-bottom: 0.5rem;
+    transition: color 0.3s ease;
+}
+
+.project-item .project-link {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.contact-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 1.5rem;
+}
+
+/* Stil für die Artikelliste */
+.article-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 1.5rem;
+}
+
+.article-list li {
+    margin-bottom: 1rem;
+}
+
+.article-list a {
+    font-size: 1.2rem;
+    font-weight: 500;
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s ease;
+}
+
+.article-list a:hover {
+    border-bottom-color: var(--text-color);
+}
+
+/* Stile für die Artikelseiten */
+.article-content .article-meta {
+    font-size: 0.9rem;
+    color: var(--secondary-text-color);
+    margin-bottom: 2rem;
+}
+
+.article-content .back-link {
+    display: inline-block;
+    margin-top: 3rem;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.article-content .back-link:hover {
+    text-decoration: underline;
+}
+
+/* ======================================= */
+/* RESPONSIVE ANPASSUNGEN (TABLETS & CO.)  */
+/* ======================================= */
+@media (max-width: 768px) {
+    .top-nav {
+        padding: 1rem 1.5rem;
+    }
+    
+    .container {
+        padding-left: 1.5rem;
+        padding-right: 1.5rem;
+    }
+
+    h1 {
+        font-size: 2.8rem;
+    }
+    h2 {
+        font-size: 1.8rem;
+    }
+    p {
+        font-size: 1rem;
+    }
+}
+
+/* =============================================== */
+/* WEITERE ANPASSUNGEN (KLEINE SMARTPHONES)        */
+/* =============================================== */
+@media (max-width: 480px) {
+    .top-nav {
+        padding: 0.75rem 1rem;
+    }
+
+    .nav-brand {
+        font-size: 1rem;
+    }
+
+    .container {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    h1 {
+        font-size: 2.4rem;
+    }
+
+    .hero .subtitle {
+        font-size: 1.1rem;
+    }
+}
