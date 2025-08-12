@@ -91,7 +91,7 @@ function protectEmail() {
         const user = 'hallo';
         const domain = 'malte.com';
         contactLink.href = `mailto:${user}@${domain}`;
-        contactLink.textContent = `${user}@${domain}`;
+        contactLink.textContent = `Mail`;
     }
 }
 
