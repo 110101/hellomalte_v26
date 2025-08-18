@@ -23,51 +23,66 @@ document.addEventListener('DOMContentLoaded', () => {
 // ============== THEMA (DARK MODE) & SCROLL-ANZEIGE ==============
 
 function initializeTheme() {
+    // Bestehende Elemente
     const darkModeSwitch = document.querySelector('#darkModeToggleContainer');
     const body = document.body;
     const progressBar = document.querySelector('.scroll-progress-bar');
     const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
 
+    // NEUE Elemente für die Sticky Nav
+    const navBrand = document.getElementById('nav-brand-title');
+    const mainHeadline = document.getElementById('main-headline');
+
+    // Theme-Funktionen (unverändert)
     const setTheme = (theme) => {
-        // Stellt sicher, dass immer nur eine Theme-Klasse aktiv ist
         body.classList.remove('dark-mode', 'light-mode');
         body.classList.add(`${theme}-mode`);
     };
 
     if (darkModeSwitch) {
         darkModeSwitch.addEventListener('click', () => {
-            // Bei einem Klick wird die explizite Auswahl des Nutzers gespeichert
             const newTheme = body.classList.contains('dark-mode') ? 'light' : 'dark';
             localStorage.setItem('theme', newTheme);
             setTheme(newTheme);
         });
     }
 
-    // Funktion zur initialen Festlegung des Themas
     const setInitialTheme = () => {
         const savedTheme = localStorage.getItem('theme');
         if (savedTheme) {
-            // 1. Priorität: Eine vom Nutzer gespeicherte Auswahl
             setTheme(savedTheme);
         } else {
-            // 2. Priorität: Die System-Einstellung des Nutzers
             setTheme(prefersDarkScheme.matches ? 'dark' : 'light');
         }
     };
 
-    // Initiales Thema beim Laden der Seite setzen
     setInitialTheme();
 
-    // Auf Änderungen der System-Einstellung lauschen
     prefersDarkScheme.addEventListener('change', (e) => {
-        // Nur anpassen, wenn der Nutzer keine explizite Auswahl getroffen hat
         if (!localStorage.getItem('theme')) {
             setTheme(e.matches ? 'dark' : 'light');
         }
     });
 
+    // NEUE Funktion für den Navigations-Titel
+    const handleStickyNavTitle = () => {
+        if (!mainHeadline || !navBrand) return; // Stellt sicher, dass die Elemente existieren
 
-    // Scroll-Anzeige (unverändert)
+        // Text nur einmal setzen, um die Performance zu verbessern
+        if (navBrand.textContent !== mainHeadline.textContent) {
+            navBrand.textContent = mainHeadline.textContent;
+        }
+
+        const headlineRect = mainHeadline.getBoundingClientRect();
+        // Wenn der untere Rand der H1 über den oberen Rand der Navigationsleiste scrollt
+        if (headlineRect.bottom < 60) { // 50px ist eine Pufferzone
+            navBrand.classList.add('is-visible');
+        } else {
+            navBrand.classList.remove('is-visible');
+        }
+    };
+
+    // Scroll-Funktionen
     const updateScrollProgress = () => {
         if (!progressBar) return;
         const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
@@ -79,7 +94,17 @@ function initializeTheme() {
         const scrolled = (scrollTop / scrollHeight) * 100;
         progressBar.style.width = scrolled + '%';
     };
-    window.addEventListener('scroll', updateScrollProgress);
+
+    // Ein einziger Scroll-Handler für bessere Performance
+    const onScroll = () => {
+        updateScrollProgress();
+        // Effekt NUR auf der Startseite ausführen, indem wir die body-Klasse prüfen
+        if (document.body.classList.contains('home-page')) {
+            handleStickyNavTitle();
+        }
+    };
+
+    window.addEventListener('scroll', onScroll);
 }
 
 
@@ -101,7 +126,7 @@ function protectEmail() {
 async function loadArticleList() {
     const container = document.getElementById('article-list-container');
     try {
-        const response = await fetch('posts.json');
+        const response = await fetch('content/posts.json');
         const data = await response.json();
         
         container.innerHTML = ''; 
@@ -119,7 +144,7 @@ async function loadArticleList() {
         });
 
     } catch (error) {
-        container.innerHTML = '<li>Fehler beim Laden der Artikel.</li>';
+        container.innerHTML = '<li>Error fetching posts.</li>';
         console.error('Error fetching posts:', error);
     }
 }
@@ -175,7 +200,7 @@ async function loadLinkCollection() {
     const iconSvg = `<svg class="link-item-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M17 7h-4v2h4c1.65 0 3 1.35 3 3s-1.35 3-3 3h-4v2h4c2.76 0 5-2.24 5-5s-2.24-5-5-5zm-6 8H7c-1.65 0-3-1.35-3-3s1.35-3 3-3h4V7H7c-2.76 0-5 2.24-5 5s2.24 5 5 5h4v-2zm-3-4h8v2H8v-2z"/></svg>`;
 
     try {
-        const response = await fetch('links.md');
+        const response = await fetch('content/links.md');
         const markdown = await response.text();
         container.innerHTML = '';
 
@@ -209,7 +234,7 @@ async function loadLinkCollection() {
         });
 
     } catch (error) {
-        container.innerHTML = '<li>Fehler beim Laden der Links.</li>';
+        container.innerHTML = '<li>Error fetching links..</li>';
         console.error('Error fetching links:', error);
     }
 }

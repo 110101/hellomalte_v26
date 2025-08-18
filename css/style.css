@@ -34,7 +34,62 @@ html {
     scroll-behavior: smooth;
 }
 
+/* inter-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/inter-v19-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-500 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/inter-v19-latin-500.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* inter-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/inter-v19-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
+/* domine-regular - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Domine';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../fonts/domine-v24-latin-regular.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* domine-500 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Domine';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../fonts/domine-v24-latin-500.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+/* domine-700 - latin */
+@font-face {
+  font-display: swap; /* Check https://developer.mozilla.org/en-US/docs/Web/CSS/@font-face/font-display for other options. */
+  font-family: 'Domine';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../fonts/domine-v24-latin-700.woff2') format('woff2'); /* Chrome 36+, Opera 23+, Firefox 39+, Safari 12+, iOS 10+ */
+}
+
 body {
+    min-height: 100vh;
+    display: grid; /* Wir verwenden Grid statt Flexbox */
+    grid-template-rows: auto 1fr auto; /* Nav (auto), Main (füllt den Rest), Footer (auto) */
+
+    /* Die restlichen Styles bleiben unverändert */
     font-family: 'Inter', sans-serif;
     background-color: var(--bg-color);
     color: var(--text-color);
@@ -61,19 +116,38 @@ body {
     top: 0;
     left: 0;
     width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
     background-color: var(--bg-color);
-    border-bottom: 1px solid var(--border-color);
     z-index: 100;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 }
 
+.nav-container {
+        max-width: 840px;       
+        margin: 0 auto;     
+        padding: 1rem 2rem; 
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+}
+
+
 .nav-brand {
     font-weight: 700;
     font-size: 1.2rem;
+    /* Standardmäßig sichtbar, keine Transition nötig */
+}
+
+/* Spezifische Regel NUR für die Startseite (initial unsichtbar) */
+.home-page .nav-brand {
+    opacity: 0;
+    transform: translateY(-5px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Spezifische Regel für den sichtbaren Zustand NUR auf der Startseite */
+.home-page .nav-brand.is-visible {
+    opacity: 1;
+    transform: translateY(0);
 }
 
 .nav-brand a {
@@ -130,15 +204,15 @@ body.dark-mode .toggle-circle {
 
 /* Hauptcontainer */
 .container {
-    max-width: 720px;
+    max-width: 840px;
     margin: 0 auto;
     padding: 5vh 2rem 5rem 2rem;
 }
 
 /* Typografie */
 h1, h2 {
-    font-family: 'Playfair Display', serif;
-    font-weight: 600;
+    font-family: 'Domine', serif;
+    font-weight: 700;
 }
 
 h1 {

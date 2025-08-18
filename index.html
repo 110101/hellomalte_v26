@@ -3,31 +3,28 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Malte - Product Designer</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>Hello, I'm Malte.</title>
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body id="top">
+<body id="top" class="home-page">
     <div class="scroll-progress-bar"></div>
-    <nav class="top-nav">
-        <div class="nav-brand">
-            <a href="index.html">Hello, I'm Malte.</a>
-        </div>
-        <div class="dark-mode-switch">
-            <label for="darkModeToggle" class="toggle-label">Dark Mode</label>
-            <div class="toggle-container" id="darkModeToggleContainer">
-                <div class="toggle-circle"></div>
+    <nav class="top-nav" id="top-nav-wrapper">
+        <div class="nav-container">
+            <div class="nav-brand" id="nav-brand-title"></div>
+            <div class="dark-mode-switch">
+                <label for="darkModeToggle" class="toggle-label">Dark Mode</label>
+                <div class="toggle-container" id="darkModeToggleContainer">
+                    <div class="toggle-circle"></div>
+                </div>
             </div>
         </div>
     </nav>
     <main class="container">
         <header class="hero">
-            <h1>Hey and hello!</h1>
+            <h1 id="main-headline">Hello, I'm Malte.</h1>
             <p></p>
             <p class="subtitle">
-                I am Malte, a passionate technical product manager loving to create products with impact.
+                A passionate technical product manager loving to create products with impact.
             </p>
             <p>
                 As an engineer turned product strategist/manager with over a decade of experience in building and scaling complex tech products. My work centers on the development of autonomous driving tech stacks—where software, hardware, and systems engineering meet real-world safety, performance, and product-market fit.
@@ -89,6 +86,6 @@
 
 
     <script src="lib/marked.min.js"></script>
-    <script src="script.js"></script>
+    <script src="scripts/script.js"></script>
 </body>
 </html>
