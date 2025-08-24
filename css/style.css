@@ -124,8 +124,8 @@ body {
 .nav-container {
         max-width: 840px;       
         margin: 0 auto;     
-        padding: 1rem 2rem; 
         display: flex;
+        padding: 1rem 2rem; 
         justify-content: space-between;
         align-items: center;
 }
@@ -337,6 +337,10 @@ a:hover {
         padding-right: 1.5rem;
     }
 
+    .nav-container {
+        padding: 0rem 0rem; 
+    }
+
     h1 {
         font-size: 2.8rem;
     }
@@ -358,6 +362,10 @@ a:hover {
 
     .nav-brand {
         font-size: 1rem;
+    }
+
+    .nav-container {
+        padding: 0rem 0rem; 
     }
 
     .container {
